@@ -24,7 +24,7 @@ const isValidMongoId = ({
 // GET all tasks
 const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({}).sort({ createdAt: -1 });
+    const tasks = await Task.find({}).sort({ order: -1 });
     res.status(200).json(tasks);
   } catch (error) {
     errorResponse({ res, error });
