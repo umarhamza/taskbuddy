@@ -3,7 +3,7 @@ import TaskDetails from "../components/TaskDetails";
 import { useSelector, useDispatch } from "react-redux";
 import { selectTasks } from "../store/tasksSlice/selectors";
 import { toast } from "react-toastify";
-import { getTasksAction } from "../store/tasksSlice";
+import { getTasksAction } from "../store/tasksSlice/asyncActions";
 
 const Home = () => {
   const dispatch = useDispatch();

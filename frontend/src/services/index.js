@@ -1,10 +1,10 @@
 import { store } from "../store";
 import axios from "axios";
 
-export const axiosInstance = axios.create();
+const axiosInstance = axios.create();
 
 // Add a request interceptor
-axios.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   function (config) {
     const token = store.getState().session.token;
     console.log("token", token);
@@ -16,3 +16,5 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+export default axiosInstance;
