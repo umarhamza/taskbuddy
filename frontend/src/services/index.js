@@ -7,7 +7,6 @@ const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use(
   function (config) {
     const token = store.getState().session.token;
-    console.log("token", token);
     config.headers.Authorization = token;
     return config;
   },

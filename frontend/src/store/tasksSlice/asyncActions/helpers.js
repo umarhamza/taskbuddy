@@ -1,19 +1,35 @@
 import axios from "axios";
 
-export const getTasksActionHelper = async (_, { thunkAPI }) => {
+const getErrorMessage = ({ error }) => {
+  const msg = error?.response?.data.msg;
+  const message = msg || error.toString();
+  return message;
+};
+
+export const getTasksActionHelper = async (_, { rejectWithValue }) => {
   try {
     // create useinterceptors provider
     const { data } = await axios.get("/api/tasks");
     return data;
   } catch (error) {
-    const { response } = error;
-    const { data } = response;
+    const message = getErrorMessage({ error });
+    return rejectWithValue(message);
+  }
+};
 
-    const message =
-      (response && data && data.message) ||
-      error.message ||
-      error.msg ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const createTasksActionHelper = async (
+  formData,
+  { rejectWithValue, getState }
+) => {
+  try {
+    // create useinterceptors provider
+    const { data } = await axios.post("/api/tasks", {
+      ...formData,
+      order: getState().tasks.tasks.length + 1,
+    });
+    return data;
+  } catch (error) {
+    const message = getErrorMessage({ error });
+    return rejectWithValue(message);
   }
 };

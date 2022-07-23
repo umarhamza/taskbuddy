@@ -5,4 +5,5 @@ export const initialState = {
   task: { title: "", notes: "", status: constants.statuses, order: 0 },
   isLoading: false,
   error: { msg: "", hasError: false },
+  formError: { msg: "", hasError: false },
 };

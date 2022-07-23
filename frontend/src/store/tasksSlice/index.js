@@ -1,7 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import constants from "../../utils/constants";
-import { getTasksAction } from "./asyncActions";
+import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
 import { extraReducers } from "./extraReducers";
 import { reducers } from "./reducers";
