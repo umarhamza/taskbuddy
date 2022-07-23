@@ -7,6 +7,7 @@ export const axiosInstance = axios.create();
 axios.interceptors.request.use(
   function (config) {
     const token = store.getState().session.token;
+    console.log("token", token);
     config.headers.Authorization = token;
     return config;
   },

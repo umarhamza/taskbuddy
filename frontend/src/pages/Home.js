@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
 import TaskDetails from "../components/TaskDetails";
+import { useSelector, useDispatch } from "react-redux";
+import { selectTasks } from "../store/tasksSlice/selectors";
+import { toast } from "react-toastify";
+import { getTasksAction } from "../store/tasksSlice";
 
 const Home = () => {
-  const [tasks, setTasks] = useState(null);
+  const dispatch = useDispatch();
+  const tasks = useSelector(selectTasks);
+
+  console.log("tasks", tasks);
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const { data } = await axios.get("/api/tasks");
-        console.log("response", data);
-        setTasks(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchTasks();
-  }, []);
+    dispatch(getTasksAction());
+  }, [dispatch]);
 
   return (
     <div className="home">

@@ -1,14 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
-import reducers from "./reducers";
 
 const initialState = {
-  token: null,
+  token: "null",
 };
 
 const sessionSlice = createSlice({
   name: "sessionDetails",
   initialState,
-  reducers,
+  reducers: {
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
+    resetToken: (state, action) => {
+      state.token = null;
+    },
+  },
 });
 
 export const { setToken, resetToken } = sessionSlice.actions;
