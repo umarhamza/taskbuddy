@@ -16,7 +16,29 @@ const findEmptyFields = (fields) => {
   return emptyFields;
 };
 
+// Error response
+const errorResponse = ({ res, error = null, message, status = 400 }) => {
+  const msg = message ?? error.message;
+  if (error) console.error(error);
+  return res.status(status).json({ msg });
+};
+
+// Is Mongo ID valid
+const isValidMongoId = ({
+  id,
+  res,
+  message = "Incorrect ID. No task found!",
+}) => {
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    errorResponse({ res, message });
+    return true;
+  }
+  return false;
+};
+
 module.exports = {
   requiredFields,
   findEmptyFields,
+  errorResponse,
+  isValidMongoId,
 };

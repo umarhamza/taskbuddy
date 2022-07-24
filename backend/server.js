@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 
 // import router from task routes
 const taskRoutes = require("./routes/tasks");
+const userRoutes = require("./routes/users");
 
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI;
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 
 // routes
 app.use("/api/tasks", taskRoutes);
+app.use("/api/users", userRoutes);
 
 // connect to DB
 mongoose
