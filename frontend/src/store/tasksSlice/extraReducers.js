@@ -6,7 +6,6 @@ import {
 import { initialState } from './initialState';
 
 const resetAction = (state) => {
-  // Reset Error
   state.error = initialState.error;
   state.formError = initialState.formError;
 };
