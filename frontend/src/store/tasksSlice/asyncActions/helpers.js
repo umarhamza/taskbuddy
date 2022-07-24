@@ -48,3 +48,16 @@ export const deleteTasksActionHelper = async (id, { rejectWithValue }) => {
     return rejectWithValue(message);
   }
 };
+
+export const updateTasksActionHelper = async (
+  { formData, id },
+  { rejectWithValue, getState }
+) => {
+  try {
+    const { data } = await axios.patch(`${API_URL}/${id}`, formData);
+    return { ...data, ...formData };
+  } catch (error) {
+    const { message, options } = getErrorMessage({ error });
+    return rejectWithValue({ message, options });
+  }
+};

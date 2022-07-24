@@ -46,6 +46,12 @@ header a {
   position: relative;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
 }
+.task-details .task-details--row {
+  margin-bottom: 7px;
+}
+.task-details .task-details--row:last-of-type {
+  margin-bottom: 0;
+}
 .task-details h4 {
   margin: 0 0 10px 0;
   font-size: 1.2em;
@@ -56,7 +62,21 @@ header a {
   font-size: 0.9em;
   color: #555;
 }
-.task-details span {
+.task-details--timer {
+  display: flex;
+  align-items: center;
+}
+.task-details .play-pause {
+  cursor: pointer;
+  display: block;
+  margin-left: 8px;
+  color: var(--primary)
+}
+.task-details .play-pause:hover,
+  .task-details .play-pause.playing {
+  color: var(--error)
+}
+.task-details .delete-icon {
     position: absolute;
     font-size: 12px;
     top: 20px;

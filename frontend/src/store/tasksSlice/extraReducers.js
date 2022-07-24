@@ -2,6 +2,7 @@ import {
   createTasksAction,
   getTasksAction,
   deleteTasksAction,
+  updateTasksAction,
 } from "./asyncActions";
 import { initialState } from "./initialState";
 
@@ -55,6 +56,27 @@ export const extraReducers = (builder) => {
       resetAction(state);
     })
     .addCase(deleteTasksAction.rejected, (state, action) => {
+      state.error.msg = action.payload;
+      state.error.hasError = true;
+    })
+
+    // Update Tasks
+    .addCase(updateTasksAction.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(updateTasksAction.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.tasks = state.tasks.reduce((acc, curr) => {
+        if (curr._id === action.payload._id) {
+          acc.push(action.payload);
+        } else {
+          acc.push(curr);
+        }
+        return acc;
+      }, []);
+      resetAction(state);
+    })
+    .addCase(updateTasksAction.rejected, (state, action) => {
       state.error.msg = action.payload;
       state.error.hasError = true;
     });
