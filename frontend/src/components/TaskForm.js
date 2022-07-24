@@ -32,6 +32,7 @@ const TaskForm = () => {
       <h3>Add a new Task</h3>
       <label>Task Title:</label>
       <input
+        className={formError.emptyFields.includes("title") ? "error" : ""}
         id="title"
         value={formData.title}
         onChange={handleChange}
@@ -39,7 +40,12 @@ const TaskForm = () => {
       />
 
       <label>Status:</label>
-      <select id="status" value={formData.status} onChange={handleChange}>
+      <select
+        className={formError.emptyFields.includes("status") ? "error" : ""}
+        id="status"
+        value={formData.status}
+        onChange={handleChange}
+      >
         {constants.statuses.map((status) => (
           <option key={status} value={status}>
             {status}
@@ -48,6 +54,7 @@ const TaskForm = () => {
       </select>
       <textarea
         value={formData.notes}
+        className={formError.emptyFields.includes("notes") ? "error" : ""}
         id="notes"
         rows="5"
         onChange={handleChange}

@@ -1,11 +1,12 @@
-const Task = require('../models/TaskModel');
-const mongoose = require('mongoose');
-var { isEmpty } = require('lodash');
+const Task = require("../models/TaskModel");
+const mongoose = require("mongoose");
+const { findEmptyFields } = require("../helpers");
+const { isEmpty } = require("lodash");
 
 // Error response
 const errorResponse = ({ res, error = null, message, status = 400 }) => {
   const msg = message ?? error.message;
-  if (error) console.log(error);
+  if (error) console.error(error);
   return res.status(status).json({ msg });
 };
 
@@ -13,7 +14,7 @@ const errorResponse = ({ res, error = null, message, status = 400 }) => {
 const isValidMongoId = ({
   id,
   res,
-  message = 'Incorrect ID. No task found!',
+  message = "Incorrect ID. No task found!",
 }) => {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     errorResponse({ res, message });
@@ -45,7 +46,7 @@ const getTask = async (req, res) => {
     const task = await Task.findById(id);
 
     // If no task found, return 404
-    if (!task) return errorResponse({ res, message: 'No such task!' });
+    if (!task) return errorResponse({ res, message: "No such task!" });
 
     // Return task
     res.status(200).json(task);
@@ -54,28 +55,17 @@ const getTask = async (req, res) => {
   }
 };
 
-const findEmptyFields = (fields, requiredFields) => {
-  const emptyFields = [];
-
-  for (const field in fields) {
-    if (Object.hasOwnProperty.call(fields, field)) {
-      const element = fields[field];
-      if (requiredFields.includes(field) && isEmpty(field))
-        emptyFields.push(field);
-    }
-  }
-
-  return emptyFields;
-};
-
 // CREATE new task
 const createTask = async (req, res) => {
   const { title, notes, status, order } = req.body;
 
-  // Check for empty fields
-  const emptyFields = findEmptyFields(req.body, ['title', 'status']);
-  console.log('emptyFields', emptyFields);
-  // if (emptyFields.length > 0) return res.status(400).json({msg: "Please fill in all required fields", emptyFields})
+  // If required fields are empty, return an error with empty fields
+  const emptyFields = findEmptyFields(req.body);
+  if (!isEmpty(emptyFields))
+    return res.status(400).json({
+      msg: "Please fill in all required fields",
+      options: { emptyFields },
+    });
 
   // Add doc to DB
   try {
@@ -104,7 +94,7 @@ const deleteTask = async (req, res) => {
     const task = await Task.findOneAndDelete({ _id: id });
 
     // If no task found
-    if (!task) return errorResponse({ res, message: 'No such task!' });
+    if (!task) return errorResponse({ res, message: "No such task!" });
 
     res.status(200).json({ _id: task._id });
   } catch (error) {
@@ -129,7 +119,7 @@ const updateTask = async (req, res) => {
       }
     );
     // If no task found, return 404
-    if (!task) return errorResponse({ res, message: 'No such task!' });
+    if (!task) return errorResponse({ res, message: "No such task!" });
     res.status(200).json({ _id: task._id, updatedAt: task.updatedAt });
   } catch (error) {
     errorResponse({ res, error });

@@ -10,6 +10,7 @@ const taskSchema = new Schema(
     },
     notes: {
       type: String,
+      required: true,
     },
     status: {
       type: String,

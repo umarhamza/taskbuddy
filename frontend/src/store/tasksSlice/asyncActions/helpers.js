@@ -1,11 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_URL = '/api/tasks';
+const API_URL = "/api/tasks";
 
 const getErrorMessage = ({ error }) => {
-  const msg = error?.response?.data.msg;
+  const msg = error?.response?.data?.msg;
+  const options = error?.response?.data?.options;
   const message = msg || error.toString();
-  return message;
+  return { message, options };
 };
 
 export const getTasksActionHelper = async (_, { rejectWithValue }) => {
@@ -14,7 +15,7 @@ export const getTasksActionHelper = async (_, { rejectWithValue }) => {
     const { data } = await axios.get(API_URL);
     return data;
   } catch (error) {
-    const message = getErrorMessage({ error });
+    const { message } = getErrorMessage({ error });
     return rejectWithValue(message);
   }
 };
@@ -31,8 +32,8 @@ export const createTasksActionHelper = async (
     });
     return data;
   } catch (error) {
-    const message = getErrorMessage({ error });
-    return rejectWithValue(message);
+    const { message, options } = getErrorMessage({ error });
+    return rejectWithValue({ message, options });
   }
 };
 
@@ -43,7 +44,7 @@ export const deleteTasksActionHelper = async (id, { rejectWithValue }) => {
     } = await axios.delete(`${API_URL}/${id}`);
     return _id;
   } catch (error) {
-    const message = getErrorMessage({ error });
+    const { message } = getErrorMessage({ error });
     return rejectWithValue(message);
   }
 };

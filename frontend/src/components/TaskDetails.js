@@ -1,14 +1,15 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { deleteTasksAction } from '../store/tasksSlice/asyncActions';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { deleteTasksAction } from "../store/tasksSlice/asyncActions";
+import dayjs from "dayjs";
 
 const TaskDetails = ({ task }) => {
   const dispatch = useDispatch();
   const { _id, title, notes, status, timer, createdAt } = task;
   const statuses = {
-    pending: 'Pending',
-    started: 'Started',
-    completed: 'Completed',
+    pending: "Pending",
+    started: "Started",
+    completed: "Completed",
   };
 
   const handleDelete = async (id) => {
@@ -16,7 +17,7 @@ const TaskDetails = ({ task }) => {
   };
 
   return (
-    <div className='task-details'>
+    <div className="task-details">
       <h4>{title}</h4>
       <p>
         <strong>Timer: </strong>
@@ -26,9 +27,14 @@ const TaskDetails = ({ task }) => {
         <strong>Status: </strong>
         {statuses[status]}
       </p>
-      <p>{createdAt}</p>
+      <p>Created at: {dayjs(createdAt).format("DD/MM/YYYY")}</p>
       <p>{notes}</p>
-      <span onClick={() => handleDelete(_id)}>delete</span>
+      <span
+        className="material-symbols-outlined"
+        onClick={() => handleDelete(_id)}
+      >
+        delete
+      </span>
     </div>
   );
 };

@@ -2,8 +2,8 @@ import {
   createTasksAction,
   getTasksAction,
   deleteTasksAction,
-} from './asyncActions';
-import { initialState } from './initialState';
+} from "./asyncActions";
+import { initialState } from "./initialState";
 
 const resetAction = (state) => {
   state.error = initialState.error;
@@ -38,9 +38,11 @@ export const extraReducers = (builder) => {
       resetAction(state);
     })
     .addCase(createTasksAction.rejected, (state, action) => {
+      const { message, options } = action.payload;
       state.isLoading = false;
-      state.formError.msg = action.payload;
+      state.formError.msg = message;
       state.formError.hasError = true;
+      state.formError.emptyFields = options.emptyFields;
     })
 
     // Delete Tasks
@@ -50,7 +52,6 @@ export const extraReducers = (builder) => {
     .addCase(deleteTasksAction.fulfilled, (state, action) => {
       state.tasks = state.tasks.filter((task) => task._id !== action.payload);
       state.isLoading = false;
-      console.log('action', action);
       resetAction(state);
     })
     .addCase(deleteTasksAction.rejected, (state, action) => {
