@@ -1,12 +1,21 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createTasksActionHelper, getTasksActionHelper } from "./helpers";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createTasksActionHelper,
+  getTasksActionHelper,
+  deleteTasksActionHelper,
+} from './helpers';
 
 export const getTasksAction = createAsyncThunk(
-  "tasks/getTasksAction",
+  'tasks/getTasksAction',
   getTasksActionHelper
 );
 
 export const createTasksAction = createAsyncThunk(
-  "tasks/createTasksAction",
+  'tasks/createTasksAction',
   createTasksActionHelper
+);
+
+export const deleteTasksAction = createAsyncThunk(
+  'tasks/deleteTasksAction',
+  deleteTasksActionHelper
 );

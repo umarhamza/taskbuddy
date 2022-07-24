@@ -1,4 +1,15 @@
-import { createTasksAction, getTasksAction } from "./asyncActions";
+import {
+  createTasksAction,
+  getTasksAction,
+  deleteTasksAction,
+} from './asyncActions';
+import { initialState } from './initialState';
+
+const resetAction = (state) => {
+  // Reset Error
+  state.error = initialState.error;
+  state.formError = initialState.formError;
+};
 
 export const extraReducers = (builder) => {
   builder
@@ -10,6 +21,7 @@ export const extraReducers = (builder) => {
     .addCase(getTasksAction.fulfilled, (state, action) => {
       state.isLoading = false;
       state.tasks = action.payload;
+      resetAction(state);
     })
     .addCase(getTasksAction.rejected, (state, action) => {
       state.isLoading = false;
@@ -23,13 +35,27 @@ export const extraReducers = (builder) => {
     })
     .addCase(createTasksAction.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.tasks = [...state.tasks, action.payload].sort(
-        (a, b) => b.order - a.order
-      );
+      state.tasks = [action.payload, ...state.tasks];
+      resetAction(state);
     })
     .addCase(createTasksAction.rejected, (state, action) => {
       state.isLoading = false;
       state.formError.msg = action.payload;
       state.formError.hasError = true;
+    })
+
+    // Delete Tasks
+    .addCase(deleteTasksAction.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(deleteTasksAction.fulfilled, (state, action) => {
+      state.tasks = state.tasks.filter((task) => task._id !== action.payload);
+      state.isLoading = false;
+      console.log('action', action);
+      resetAction(state);
+    })
+    .addCase(deleteTasksAction.rejected, (state, action) => {
+      state.error.msg = action.payload;
+      state.error.hasError = true;
     });
 };
