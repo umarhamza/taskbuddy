@@ -1,9 +1,15 @@
+const User = require("../models/UserModel");
+const jwt = require("jsonwebtoken");
+const { isEmpty } = require("lodash");
 const {
   findEmptyFields,
   errorResponse,
   isValidMongoId,
 } = require("../helpers");
-const { isEmpty } = require("lodash");
+
+const createToken = (_id) => {
+  return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
+};
 
 // login user
 const loginUser = async (req, res) => {
@@ -16,8 +22,15 @@ const loginUser = async (req, res) => {
 
 // register user
 const registerUser = async (req, res) => {
+  const { fullname, email, password } = req.body;
+
   try {
-    res.status(200).json({ msg: "register user" });
+    const user = await User.register(fullname, email, password);
+
+    // Create a token
+    const token = createToken(user._id);
+
+    res.status(200).json({ email, token });
   } catch (error) {
     errorResponse({ res, error });
   }
