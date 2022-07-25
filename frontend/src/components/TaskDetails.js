@@ -43,20 +43,14 @@ const TaskDetails = ({ task }) => {
 
   useEffect(() => {
     let timerInterval;
-    let timerTimeout;
 
     if (startTimer) {
       timerInterval = setInterval(() => {
         setTimer((prev) => prev + 1);
       }, 1000);
-      timerTimeout = setTimeout(() => {
-        updateTimer();
-        console.log("timeout");
-      }, 6000);
     }
     return () => {
       clearInterval(timerInterval);
-      clearTimeout(timerTimeout);
     };
   }, [startTimer, timer, updateTimer]);
 

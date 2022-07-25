@@ -104,7 +104,7 @@ const updateTask = async (req, res) => {
     );
     // If no task found, return 404
     if (!task) return errorResponse({ res, message: "No such task!" });
-    res.status(200).json({ _id: task._id, updatedAt: task.updatedAt });
+    res.status(200).json(task);
   } catch (error) {
     errorResponse({ res, error });
   }
