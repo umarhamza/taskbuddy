@@ -1,4 +1,5 @@
 var { isEmpty } = require("lodash");
+const mongoose = require("mongoose");
 
 const requiredFields = ["title", "status", "notes"];
 
