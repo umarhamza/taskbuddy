@@ -1,22 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   deleteTasksAction,
   updateTasksAction,
-} from "../store/tasksSlice/asyncActions";
+} from "../../store/tasksSlice/asyncActions";
 import dayjs from "dayjs";
 import classNames from "classnames";
+import { Notes, Status } from "./components";
 
 const TaskDetails = ({ task }) => {
   const dispatch = useDispatch();
   const [timer, setTimer] = useState(task.timer);
-  const [startTimer, setStartTimer] = useState(false);
-  const { _id, title, notes, status, createdAt } = task;
-  const statuses = {
-    pending: "Pending",
-    started: "Started",
-    completed: "Completed",
-  };
+  const [timerStarted, setTimerStarted] = useState(false);
+  const { _id, title, createdAt } = task;
 
   const handleDelete = async (id) => {
     dispatch(deleteTasksAction(id));
@@ -29,39 +25,42 @@ const TaskDetails = ({ task }) => {
     return `${minutes}:${seconds}`;
   };
 
+  const updateTimer = () => {
+    setTimerStarted(false);
+    dispatch(updateTasksAction({ formData: { ...task, timer }, id: _id }));
+  };
+
   const handleStartTimer = () => {
-    if (!startTimer) {
-      setStartTimer((prev) => !prev);
+    if (!timerStarted) {
+      setTimerStarted(true);
     } else {
       updateTimer();
     }
   };
 
-  const updateTimer = useCallback(() => {
-    dispatch(updateTasksAction({ formData: { timer }, id: _id }));
-  }, [_id, dispatch, timer]);
-
   useEffect(() => {
     let timerInterval;
 
-    if (startTimer) {
+    if (timerStarted) {
       timerInterval = setInterval(() => {
         setTimer((prev) => prev + 1);
       }, 1000);
+    } else {
+      clearInterval(timerInterval);
     }
     return () => {
       clearInterval(timerInterval);
     };
-  }, [startTimer, timer, updateTimer]);
+  }, [timerStarted, timer]);
 
   return (
     <div className="task-details">
       <h4>{title}</h4>
       <div className="task-details--row">
-        <p>
+        <div className="status">
           <strong>Status: </strong>
-          {statuses[status]}
-        </p>
+          <Status task={task} />
+        </div>
       </div>
       <div className="task-details--row">
         <p>
@@ -75,18 +74,18 @@ const TaskDetails = ({ task }) => {
         </p>
         <span
           className={classNames("play-pause material-symbols-outlined", {
-            playing: startTimer,
+            playing: timerStarted,
           })}
           onClick={handleStartTimer}
         >
-          {startTimer ? "pause" : "play_arrow"}
+          {timerStarted ? "pause" : "play_arrow"}
         </span>
       </div>
       <div className="task-details--row">
         <p>
           <strong>Notes:</strong>
         </p>
-        <p>{notes}</p>
+        <Notes task={task} />
       </div>
       <span
         className="delete-icon material-symbols-outlined"

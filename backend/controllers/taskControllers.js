@@ -89,6 +89,7 @@ const deleteTask = async (req, res) => {
 // UPDATE a task
 const updateTask = async (req, res) => {
   const { id } = req.params;
+  const { title, notes, status, order, timer } = req.body;
 
   // make sure its a valid id
   if (isValidMongoId({ id, res })) {
@@ -96,15 +97,19 @@ const updateTask = async (req, res) => {
   }
 
   try {
-    const task = await Task.findOneAndUpdate(
+    const { _doc: task } = await Task.findOneAndUpdate(
       { _id: id },
       {
-        ...req.body,
+        title,
+        notes,
+        status,
+        order,
+        timer,
       }
     );
     // If no task found, return 404
     if (!task) return errorResponse({ res, message: "No such task!" });
-    res.status(200).json(task);
+    res.status(200).json({ ...task, title, notes, status, order, timer });
   } catch (error) {
     errorResponse({ res, error });
   }

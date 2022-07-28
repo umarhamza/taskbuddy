@@ -89,6 +89,32 @@ header a {
     display: block;
 }
 
+.task-details .status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.task-details .status input {
+  margin: 0;
+}
+
+.task-details .editmode textarea {
+  margin-bottom: 1px;
+}
+
+.link {
+  background: none;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  color: var(--primary)
+}
+
+.link:hover {
+  color: var(--error)
+}
+
 /* new task form */
 label, input {
   display: block;

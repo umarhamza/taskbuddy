@@ -55,7 +55,7 @@ export const updateTasksActionHelper = async (
 ) => {
   try {
     const { data } = await axios.patch(`${API_URL}/${id}`, formData);
-    return { ...data, ...formData };
+    return data;
   } catch (error) {
     const { message, options } = getErrorMessage({ error });
     return rejectWithValue({ message, options });

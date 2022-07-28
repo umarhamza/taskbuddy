@@ -61,9 +61,6 @@ export const extraReducers = (builder) => {
     })
 
     // Update Tasks
-    .addCase(updateTasksAction.pending, (state) => {
-      state.isLoading = true;
-    })
     .addCase(updateTasksAction.fulfilled, (state, action) => {
       state.isLoading = false;
       state.tasks = state.tasks.reduce((acc, curr) => {
