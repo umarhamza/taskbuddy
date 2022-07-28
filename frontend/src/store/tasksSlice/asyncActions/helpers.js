@@ -1,13 +1,7 @@
 import axios from "axios";
+import { getErrorMessage } from "../../../utils/helpers";
 
 const API_URL = "/api/tasks";
-
-const getErrorMessage = ({ error }) => {
-  const msg = error?.response?.data?.msg;
-  const options = error?.response?.data?.options;
-  const message = msg || error.toString();
-  return { message, options };
-};
 
 export const getTasksActionHelper = async (_, { rejectWithValue }) => {
   try {
