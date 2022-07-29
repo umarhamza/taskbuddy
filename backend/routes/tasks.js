@@ -30,13 +30,29 @@ const router = express.Router();
  *          type: string
  *          description: The task title
  *        notes:
- *          title: string
+ *          type: string
  *          description: The task notes
  *      example:
  *        id: d5fe_azf
  *        title: Start working on API
  *        notes: I need to create Swagger docs for my API
  *
+ */
+
+/**
+ * @swagger
+ * /api/tasks:
+ *  get:
+ *    summary: Returns the list of all the tasks
+ *    responses:
+ *      200:
+ *        description: The list of the tasks
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Task'
  */
 
 // This is to get all tasks
