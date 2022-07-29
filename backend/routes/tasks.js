@@ -13,6 +13,32 @@ const {
 // attach routes to router below
 const router = express.Router();
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    Task:
+ *      type: object
+ *      required:
+ *        - title
+ *        - notes
+ *      properties:
+ *        id:
+ *          type: string
+ *          description: The auto-generated id of the task
+ *        title:
+ *          type: string
+ *          description: The task title
+ *        notes:
+ *          title: string
+ *          description: The task notes
+ *      example:
+ *        id: d5fe_azf
+ *        title: Start working on API
+ *        notes: I need to create Swagger docs for my API
+ *
+ */
+
 // This is to get all tasks
 router.get("/", getTasks);
 
