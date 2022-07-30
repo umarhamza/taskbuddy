@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUserTask } from "../store/usersSlice/asyncActions";
+import { loginUserTask } from "../store/usersSlice/asyncActions";
 import { selectUsersState } from "../store/usersSlice/selectors";
 import classNames from "classnames";
 
-const Register = () => {
+const Login = () => {
   const dispatch = useDispatch();
   const {
     isLoading,
@@ -12,7 +12,6 @@ const Register = () => {
   } = useSelector(selectUsersState);
   const initialState = useMemo(
     () => ({
-      fullname: "",
       email: "",
       password: "",
     }),
@@ -27,7 +26,8 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(registerUserTask(formData));
+    dispatch(loginUserTask(formData));
+    setFormData(initialState);
   };
 
   useEffect(() => {
@@ -35,16 +35,8 @@ const Register = () => {
   }, [initialState, success]);
 
   return (
-    <form className="signup" onSubmit={handleSubmit}>
-      <h3>Sign Up</h3>
-      <label>Full name:</label>
-      <input
-        id="fullname"
-        type="text"
-        onChange={(e) => handleChange(e)}
-        value={formData.name}
-        className={classNames({ error: emptyFields.includes("fullname") })}
-      />
+    <form className="login" onSubmit={handleSubmit}>
+      <h3>Log in</h3>
       <label>Email address:</label>
       <input
         id="email"
@@ -62,10 +54,10 @@ const Register = () => {
         className={classNames({ error: emptyFields.includes("password") })}
       />
 
-      <button disabled={isLoading}>Register</button>
+      <button disabled={isLoading}>Login</button>
       {hasError && <div className="error">{errorMsg}</div>}
     </form>
   );
 };
 
-export default Register;
+export default Login;

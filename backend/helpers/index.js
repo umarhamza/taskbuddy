@@ -1,9 +1,7 @@
 var { isEmpty } = require("lodash");
 const mongoose = require("mongoose");
 
-const requiredFields = ["title", "status", "notes"];
-
-const findEmptyFields = (fields) => {
+const findEmptyFields = (fields, requiredFields) => {
   const emptyFields = [];
 
   for (const field in fields) {
@@ -38,7 +36,6 @@ const isValidMongoId = ({
 };
 
 module.exports = {
-  requiredFields,
   findEmptyFields,
   errorResponse,
   isValidMongoId,

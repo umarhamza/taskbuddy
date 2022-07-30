@@ -3,13 +3,13 @@ import { reducers } from "./reducers";
 import { initialState } from "./initialState";
 import { extraReducers } from "./extraReducers";
 
-const sessionSlice = createSlice({
+const usersSlice = createSlice({
   name: "sessionDetails",
   initialState,
   reducers,
   extraReducers,
 });
 
-export const { setToken, resetToken } = sessionSlice.actions;
+export const { setToken, resetToken } = usersSlice.actions;
 
-export default sessionSlice.reducer;
+export default usersSlice.reducer;

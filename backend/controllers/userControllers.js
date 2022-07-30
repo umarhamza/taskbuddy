@@ -7,13 +7,27 @@ const {
   isValidMongoId,
 } = require("../helpers");
 
+/**
+ * @TODO
+ * Add express validator to add middleware to each route
+ */
+
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
 };
 
 // login user
 const loginUser = async (req, res) => {
+  const requiredFields = ["email", "password"];
   const { email, password } = req.body;
+
+  // If required fields are empty, return an error with empty fields
+  const emptyFields = findEmptyFields(req.body, requiredFields);
+  if (!isEmpty(emptyFields))
+    return res.status(400).json({
+      msg: "Please fill in all required fields",
+      options: { emptyFields },
+    });
 
   try {
     const user = await User.login(email, password);
@@ -29,7 +43,16 @@ const loginUser = async (req, res) => {
 
 // register user
 const registerUser = async (req, res) => {
+  const requiredFields = ["fullname", "email", "password"];
   const { fullname, email, password } = req.body;
+
+  // If required fields are empty, return an error with empty fields
+  const emptyFields = findEmptyFields(req.body, requiredFields);
+  if (!isEmpty(emptyFields))
+    return res.status(400).json({
+      msg: "Please fill in all required fields",
+      options: { emptyFields },
+    });
 
   try {
     const user = await User.register(fullname, email, password);

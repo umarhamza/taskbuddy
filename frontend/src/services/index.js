@@ -3,10 +3,10 @@ import axios from "axios";
 
 const axiosInstance = axios.create();
 
-// Add a request interceptor
+// @TODO Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
-    const token = store.getState().session.token;
+    const token = store.getState().users.token;
     config.headers.Authorization = token;
     return config;
   },

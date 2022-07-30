@@ -4,6 +4,7 @@ import constants from "../utils/constants";
 import { createTasksAction } from "../store/tasksSlice/asyncActions";
 import { selectTasksState } from "../store/tasksSlice/selectors";
 import { resetTasksError } from "../store/tasksSlice";
+import classNames from "classnames";
 
 const TaskForm = () => {
   const initialState = {
@@ -32,7 +33,9 @@ const TaskForm = () => {
       <h3>Add a new Task</h3>
       <label>Task Title:</label>
       <input
-        className={formError.emptyFields.includes("title") ? "error" : ""}
+        className={classNames({
+          error: formError.emptyFields.includes("title"),
+        })}
         id="title"
         value={formData.title}
         onChange={handleChange}
@@ -41,7 +44,9 @@ const TaskForm = () => {
 
       <label>Status:</label>
       <select
-        className={formError.emptyFields.includes("status") ? "error" : ""}
+        className={classNames({
+          error: formError.emptyFields.includes("status"),
+        })}
         id="status"
         value={formData.status}
         onChange={handleChange}
@@ -54,7 +59,9 @@ const TaskForm = () => {
       </select>
       <textarea
         value={formData.notes}
-        className={formError.emptyFields.includes("notes") ? "error" : ""}
+        className={classNames({
+          error: formError.emptyFields.includes("notes"),
+        })}
         id="notes"
         rows="5"
         onChange={handleChange}

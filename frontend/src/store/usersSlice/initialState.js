@@ -8,5 +8,6 @@ export const initialState = {
     msg: "",
     hasError: false,
     emptyFields: [],
+    success: false,
   },
 };

@@ -7,6 +7,9 @@ const {
 } = require("../helpers");
 const { isEmpty } = require("lodash");
 
+// Required fields
+const requiredFields = ["title", "status", "notes"];
+
 // GET all tasks
 const getTasks = async (req, res) => {
   try {
@@ -44,7 +47,7 @@ const createTask = async (req, res) => {
   const { title, notes, status, order } = req.body;
 
   // If required fields are empty, return an error with empty fields
-  const emptyFields = findEmptyFields(req.body);
+  const emptyFields = findEmptyFields(req.body, requiredFields);
   if (!isEmpty(emptyFields))
     return res.status(400).json({
       msg: "Please fill in all required fields",
