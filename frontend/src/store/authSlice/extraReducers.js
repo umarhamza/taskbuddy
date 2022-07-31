@@ -6,10 +6,19 @@ const rejected = (state, action) => {
   state.isLoading = false;
   state.user = initialState.user;
   state.token = initialState.token;
-  state.formError.success = false;
+  state.success = false;
   state.formError.msg = message;
   state.formError.hasError = true;
-  state.formError.emptyFields = options?.emptyFields;
+  state.formError.emptyFields = options?.emptyFields || [];
+  state.isAuthenticated = false;
+};
+
+const fulfilled = (state, action) => {
+  state.isLoading = false;
+  state.user.email = action.payload.email;
+  state.token = action.payload.token;
+  state.isAuthenticated = true;
+  state.success = true;
 };
 
 export const extraReducers = (builder) => {
@@ -19,10 +28,7 @@ export const extraReducers = (builder) => {
       state.isLoading = true;
     })
     .addCase(registerUserTask.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.user.email = action.payload.email;
-      state.token = action.payload.token;
-      state.formError.success = true;
+      fulfilled(state, action);
     })
     .addCase(registerUserTask.rejected, (state, action) => {
       rejected(state, action);
@@ -33,10 +39,7 @@ export const extraReducers = (builder) => {
       state.isLoading = true;
     })
     .addCase(loginUserTask.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.token = action.payload.token;
-      state.user.email = action.payload.email;
-      state.formError.success = true;
+      fulfilled(state, action);
     })
     .addCase(loginUserTask.rejected, (state, action) => {
       rejected(state, action);

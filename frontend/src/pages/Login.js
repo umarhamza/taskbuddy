@@ -1,15 +1,19 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUserTask } from "../store/usersSlice/asyncActions";
-import { selectUsersState } from "../store/usersSlice/selectors";
+import { loginUserTask } from "../store/authSlice/asyncActions";
+import { selectAuthState, selectToken } from "../store/authSlice/selectors";
 import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = useSelector(selectToken);
   const {
     isLoading,
-    formError: { hasError, msg: errorMsg, emptyFields, success },
-  } = useSelector(selectUsersState);
+    success,
+    formError: { hasError, msg: errorMsg, emptyFields },
+  } = useSelector(selectAuthState);
   const initialState = useMemo(
     () => ({
       email: "",
@@ -31,8 +35,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (success) setFormData(initialState);
-  }, [initialState, success]);
+    if (success) {
+      setFormData(initialState);
+      if (token) navigate("/");
+    }
+  }, [navigate, initialState, success, token]);
 
   return (
     <form className="login" onSubmit={handleSubmit}>

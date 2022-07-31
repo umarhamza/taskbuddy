@@ -43,7 +43,7 @@ export const extraReducers = (builder) => {
       state.isLoading = false;
       state.formError.msg = message;
       state.formError.hasError = true;
-      state.formError.emptyFields = options.emptyFields;
+      state.formError.emptyFields = options?.emptyFields || [];
     })
 
     // Delete Tasks

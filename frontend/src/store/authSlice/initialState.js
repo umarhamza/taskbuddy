@@ -1,6 +1,8 @@
 export const initialState = {
   token: null,
+  isAuthenticated: false,
   isLoading: false,
+  success: false,
   user: {
     email: null,
   },
@@ -8,6 +10,5 @@ export const initialState = {
     msg: "",
     hasError: false,
     emptyFields: [],
-    success: false,
   },
 };

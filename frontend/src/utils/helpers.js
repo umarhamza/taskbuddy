@@ -4,3 +4,15 @@ export const getErrorMessage = ({ error }) => {
   const message = msg || error.toString();
   return { message, options };
 };
+
+export const setSessionToken = (token) => {
+  sessionStorage.setItem("nekot", token);
+};
+
+export const removeSessionToken = (token) => {
+  sessionStorage.removeItem("nekot");
+};
+
+export const getSessionToken = () => {
+  return sessionStorage.getItem("nekot");
+};

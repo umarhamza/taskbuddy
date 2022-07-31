@@ -2,11 +2,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { registerUserTaskHelper, loginUserTaskHelper } from "./helpers";
 
 export const registerUserTask = createAsyncThunk(
-  "users/registerUserTask",
+  "auth/registerUserTask",
   registerUserTaskHelper
 );
 
 export const loginUserTask = createAsyncThunk(
-  "users/loginUserTask",
+  "auth/loginUserTask",
   loginUserTaskHelper
 );
